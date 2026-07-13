@@ -14,7 +14,7 @@
     --dennoko-surface-0: #121212; /* 最背面背景 */
     --dennoko-surface-1: #1e1e1e; /* カード・入力欄背景 */
     --dennoko-surface-2: #2c2c2c; /* ホバー・ツールバー背景 */
-    --dennoko-outline: #3a3a3a;   /* 境界線・セパレーター */
+    --dennoko-outline: #484848;   /* 境界線・セパレーター */
 
     /* タイポグラフィ */
     --dennoko-text-primary: #ffffff;   /* タイトル・強調 */
@@ -191,24 +191,31 @@
     -unity-background-image-tint-color: var(--dennoko-text-secondary);
 }
 
-/* ─── ④ トグル (Toggle) のチェックボックスリセット ──────── */
+/* ─── ④ トグル (Toggle) のチェックボックスリセット ────────
+   ⚠ エディタスキンのチェック画像は「箱 + チェック」が一体のため、
+   tint (乗算) すると箱ごと暗く塗り潰されてしまう。
+   箱込み画像は破棄して中の背景を白 (accent) に固定し、
+   チェックマークにはグリフのみのビルトインアイコンを明示指定する。 */
 
-.dennoko-root .unity-toggle__checkmark {
-    background-color: var(--dennoko-surface-1);
+.dennoko-root .unity-toggle .unity-toggle__checkmark {
+    background-color: var(--dennoko-accent); /* 中の背景は白で固定 */
+    background-image: none;                  /* スキンの箱込み画像を破棄 */
     border-color: var(--dennoko-outline);
     border-width: 1px;
     border-radius: 3px;
 }
 
 .dennoko-root .unity-toggle:hover .unity-toggle__checkmark {
-    background-color: var(--dennoko-surface-2);
+    /* 背景は白のままにし、ホバーは枠線の明度で表現する */
+    border-color: var(--dennoko-text-tertiary);
 }
 
 .dennoko-root .unity-toggle:checked .unity-toggle__checkmark {
-    background-color: var(--dennoko-accent);
-    /* チェックマーク画像を暗色 tint に固定する。tint は乗算だが、
-       「明るい accent 背景 × 暗い tint」の組み合わせは Light / Dark
-       どちらのテーマのチェック画像でも暗く沈むため両テーマで視認できる */
+    /* チェックグリフのみのアイコンを暗色 tint (乗算) で黒く沈めて重ねる。
+       白背景 × 黒グリフなのでテーマ非依存で視認できる。
+       ※アイコン名は要実機確認。表示されない場合の代替候補:
+       resource("TestPassed") / resource("Installed") */
+    background-image: resource("d_Valid");
     -unity-background-image-tint-color: var(--dennoko-surface-0);
 }
 
@@ -240,6 +247,17 @@
     -unity-background-image-tint-color: var(--dennoko-text-secondary);
 }
 
+/* ④ で箱込みのチェック画像を破棄した (background-image: none) ため、
+   展開矢印はビルトインアイコンを明示指定して復元する。
+   d_ 系を指定することでテーマ非依存にもなる。※アイコン名は要実機確認 */
+.dennoko-root .unity-foldout__toggle .unity-toggle__checkmark {
+    background-image: resource("d_IN foldout");
+}
+
+.dennoko-root .unity-foldout__toggle:checked .unity-toggle__checkmark {
+    background-image: resource("d_IN foldout on");
+}
+
 /* ─── ⑥ スライダー ───────────────────────────────────────── */
 
 .dennoko-root .unity-base-slider__tracker {
@@ -260,6 +278,32 @@
     background-color: var(--dennoko-text-primary);
 }
 
+/* MinMaxSlider (範囲スライダー)
+   ⚠ スキンの範囲バーは 9-slice 画像のため、引き伸ばすと両端の色が
+   間延びして見える。画像を破棄してフラットな塗りに置き換える。 */
+.dennoko-root .unity-min-max-slider__tracker {
+    background-color: var(--dennoko-surface-2);
+    border-color: var(--dennoko-outline);
+    border-width: 1px;
+    border-radius: 2px;
+}
+
+.dennoko-root .unity-min-max-slider__dragger {
+    background-image: none;
+    background-color: var(--dennoko-text-secondary);
+    border-width: 0;
+    border-radius: 2px;
+}
+
+/* 両端のつまみは範囲部分より明るくして掴める位置を示す */
+.dennoko-root .unity-min-max-slider__min-thumb,
+.dennoko-root .unity-min-max-slider__max-thumb {
+    background-image: none;
+    background-color: var(--dennoko-text-primary);
+    border-width: 0;
+    border-radius: 2px;
+}
+
 /* ─── ⑦ スクロールバー ───────────────────────────────────── */
 
 .dennoko-root .unity-scroller {
@@ -274,6 +318,34 @@
     background-color: var(--dennoko-surface-1);
     border-color: var(--dennoko-outline);
     -unity-background-image-tint-color: var(--dennoko-text-tertiary);
+}
+
+/* ⚠ スクロールバー内部の要素にボタン・入力欄・スライダーの汎用リセット
+   (padding / margin / 枠線) を波及させない。波及するとレーン幅を超えて
+   要素がはみ出し、縦バーでは中身が右寄りに、横バーでは上下ずれとして
+   現れる。詳細度 (0,3,0) で汎用リセット (0,2,0) を打ち消す。 */
+.dennoko-root .unity-scroller .unity-button {
+    padding: 0;
+    margin: 0;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.dennoko-root .unity-scroller .unity-base-field__input {
+    background-color: transparent;
+    border-width: 0;
+    padding: 0;
+}
+
+.dennoko-root .unity-scroller .unity-base-slider__tracker {
+    background-color: var(--dennoko-surface-0);
+    border-width: 0;
+    border-radius: 0;
+}
+
+.dennoko-root .unity-scroller .unity-base-slider__dragger {
+    border-width: 0;
+    border-radius: 4px;
 }
 
 /* ─── フローティングデザイン用セマンティッククラス ─────────
