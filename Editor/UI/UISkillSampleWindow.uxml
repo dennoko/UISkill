@@ -102,6 +102,8 @@
 
     </ui:ScrollView>
 
+    <ui:VisualElement class="dennoko-separator" />
+
     <!-- フッター (アクションボタン)。dennoko-footer で縮小時の潰れを防ぐ -->
     <ui:VisualElement class="dennoko-card dennoko-footer">
         <ui:Button name="apply-button" text="Apply &amp; Save" class="dennoko-button-primary" />
