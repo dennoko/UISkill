@@ -1,0 +1,114 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+
+    <!-- ヘッダー -->
+    <ui:VisualElement class="dennoko-header">
+        <ui:VisualElement class="dennoko-header-titlegroup">
+            <ui:Label text="UI SKILL SAMPLE" class="dennoko-title" />
+            <ui:Label text="v1.0.0" class="dennoko-version-label" />
+        </ui:VisualElement>
+        <ui:VisualElement class="dennoko-header-titlegroup">
+            <ui:Button name="lang-ja-button" text="JA" class="dennoko-button-active" />
+            <ui:Button name="lang-en-button" text="EN" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement class="dennoko-separator" />
+
+    <!-- 設定エリア (スクロール可能)。ウィンドウ縮小時はここだけが縮む -->
+    <ui:ScrollView class="dennoko-scroll">
+
+        <!-- タイポグラフィ -->
+        <ui:VisualElement class="dennoko-card">
+            <ui:Label text="TYPOGRAPHY" class="dennoko-section-title dennoko-card-header" />
+            <ui:Label text="Primary — タイトル・強調" class="dennoko-text-primary" />
+            <ui:Label text="Secondary — 本文・ラベル (デフォルト)" />
+            <ui:Label text="Tertiary — 補足・注記" class="dennoko-text-tertiary" />
+            <ui:Label text="Disabled — 無効状態" class="dennoko-text-disabled" />
+            <ui:VisualElement class="dennoko-separator" />
+            <ui:Label text="Error — 処理に失敗しました" class="dennoko-text-error" />
+            <ui:Label text="Warning — 設定を確認してください" class="dennoko-text-warning" />
+            <ui:Label text="Success — 正常に完了しました" class="dennoko-text-success" />
+            <ui:Label text="Info — 補足情報があります" class="dennoko-text-info" />
+        </ui:VisualElement>
+
+        <!-- ボタン -->
+        <ui:VisualElement class="dennoko-card">
+            <ui:Label text="BUTTONS" class="dennoko-section-title dennoko-card-header" />
+            <ui:Button text="Primary Button" class="dennoko-button-primary" />
+            <ui:Button text="Default Button" />
+            <ui:Button text="Secondary Button" class="dennoko-button-secondary" />
+            <ui:Button name="disabled-button" text="Disabled Button" />
+        </ui:VisualElement>
+
+        <!-- ツールバー (排他アクティブ切り替え) -->
+        <ui:VisualElement class="dennoko-card">
+            <ui:Label text="TOOLBAR" class="dennoko-section-title dennoko-card-header" />
+            <ui:VisualElement class="dennoko-toolbar">
+                <ui:Button name="tool-a-button" text="Tool A" class="dennoko-button-active" />
+                <ui:Button name="tool-b-button" text="Tool B" />
+                <ui:Button name="tool-c-button" text="Tool C" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- 入力フィールド -->
+        <ui:VisualElement class="dennoko-card">
+            <ui:Label text="INPUT FIELDS" class="dennoko-section-title dennoko-card-header" />
+            <ui:TextField label="Name" name="name-field" value="Dennoko" />
+            <ui:IntegerField label="Count" name="count-field" value="4" />
+            <ui:FloatField label="Scale" name="scale-field" value="1.5" />
+            <ui:DropdownField label="Quality" name="quality-dropdown" />
+            <uie:ObjectField label="Texture" name="texture-field"
+                type="UnityEngine.Texture2D, UnityEngine.CoreModule" />
+            <uie:ColorField label="Tint" name="tint-field" value="#FFFFFFFF" />
+            <ui:Toggle label="Enabled" name="enabled-toggle" value="true" />
+        </ui:VisualElement>
+
+        <!-- ON/OFF トグル付きセクション (スライダー) -->
+        <ui:VisualElement class="dennoko-card">
+            <ui:VisualElement class="dennoko-card-header dennoko-toggle-header">
+                <ui:Toggle name="color-correction-toggle" text="COLOR CORRECTION"
+                    value="true" class="dennoko-section-title" />
+                <ui:Button name="color-correction-reset" text="Reset" />
+            </ui:VisualElement>
+            <ui:VisualElement name="color-correction-content">
+                <ui:Slider label="Hue" name="hue-slider"
+                    low-value="-180" high-value="180" show-input-field="true" />
+                <ui:Slider label="Saturation" name="sat-slider"
+                    low-value="0" high-value="2" value="1" show-input-field="true" />
+                <ui:SliderInt label="Steps" name="steps-slider"
+                    low-value="1" high-value="10" value="4" show-input-field="true" />
+                <ui:MinMaxSlider label="Range" name="range-slider"
+                    min-value="20" max-value="80" low-limit="0" high-limit="100" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- フォールドアウト -->
+        <ui:VisualElement class="dennoko-card">
+            <ui:Label text="FOLDOUT" class="dennoko-section-title dennoko-card-header" />
+            <ui:Foldout text="Advanced Settings" value="false">
+                <ui:TextField label="Cache Path" value="Library/DennokoCache" />
+                <ui:Toggle label="Verbose Log" value="false" />
+            </ui:Foldout>
+        </ui:VisualElement>
+
+        <!-- ステータスバーのデモ -->
+        <ui:VisualElement class="dennoko-card">
+            <ui:Label text="STATUS DEMO" class="dennoko-section-title dennoko-card-header" />
+            <ui:Label text="下のボタンでウィンドウ最下部のステータスバーが切り替わります"
+                class="dennoko-text-tertiary" />
+            <ui:Button name="status-info-button" text="Show Info" />
+            <ui:Button name="status-success-button" text="Show Success" />
+            <ui:Button name="status-error-button" text="Show Error" />
+        </ui:VisualElement>
+
+    </ui:ScrollView>
+
+    <!-- フッター (アクションボタン)。dennoko-footer で縮小時の潰れを防ぐ -->
+    <ui:VisualElement class="dennoko-card dennoko-footer">
+        <ui:Button name="apply-button" text="Apply &amp; Save" class="dennoko-button-primary" />
+        <ui:Button name="reset-all-button" text="Reset All" class="dennoko-button-secondary" />
+    </ui:VisualElement>
+
+    <!-- ステータスバー -->
+    <ui:Label name="status-label" text="Ready" class="dennoko-status" />
+
+</ui:UXML>
